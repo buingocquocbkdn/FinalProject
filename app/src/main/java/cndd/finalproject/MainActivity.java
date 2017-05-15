@@ -1,17 +1,18 @@
 package cndd.finalproject;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button btnPlay;
-    Button btnHelp;
-    Button btnAbout;
     private static final int REQUEST_CODE = 1;
+
+    private Button btnPlay;
+    private Button btnHelp;
+    private Button btnAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

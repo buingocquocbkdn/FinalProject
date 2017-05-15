@@ -26,17 +26,17 @@ public class MyDatabase {
     public static final String COLUMN_CURRENTQUESTION = "CurrentQuestion";
     public static final String COLUMN_MAXQUESTION = "MaxQuestion";
 
-    private static Context context;
-    static SQLiteDatabase db;
-    private OpenHelper openHelper;
+    private static Context sContext;
+    private static SQLiteDatabase sDatabase;
+    private OpenHelper mOpenHelper;
 
     public MyDatabase(Context c){
-        this.context = c;
+        this.sContext = c;
     }
 
     public MyDatabase open() throws SQLException{
-        openHelper = new OpenHelper(context);
-        db = openHelper.getWritableDatabase();
+        mOpenHelper = new OpenHelper(sContext);
+        sDatabase = mOpenHelper.getWritableDatabase();
         return this;
     }
 
@@ -44,7 +44,7 @@ public class MyDatabase {
         List<Letter> letterList = new ArrayList<>();
         String sql = "SELECT * FROM " + TABLE_NAME;
 
-        Cursor kq = db.rawQuery(sql, null);
+        Cursor kq = sDatabase.rawQuery(sql, null);
         if(kq.moveToFirst()){
             do{
                 Letter letter = new Letter();
@@ -64,7 +64,7 @@ public class MyDatabase {
         List<Letter> listletter = new ArrayList<Letter>();
         String sql = "SELECT * FROM "+TABLE_NAME+" where "+COLUMN_ID+"=?";
 
-        Cursor kq = db.rawQuery(sql, new String[]{ String.valueOf(id)});
+        Cursor kq = sDatabase.rawQuery(sql, new String[]{ String.valueOf(id)});
         if(kq.moveToFirst()){
             do{
                 Letter letter = new Letter();
@@ -82,7 +82,7 @@ public class MyDatabase {
 
     public int countRecords(){
         String count = "SELECT count(*) FROM "+TABLE_NAME;
-        Cursor cur = db.rawQuery(count, null);
+        Cursor cur = sDatabase.rawQuery(count, null);
         cur.moveToFirst();
         return cur.getInt(0);
     }
@@ -101,19 +101,19 @@ public class MyDatabase {
         values.put(COLUMN_CURRENTQUESTION, currentQuestion);
         values.put(COLUMN_MAXQUESTION, maxQuestion);
 
-        return db.insert(TABLE_NAME, null, values);//(-1: insert failed, 1: insert successed)
+        return sDatabase.insert(TABLE_NAME, null, values);//(-1: insert failed, 1: insert successed)
     }
 
     public void close(){
-        openHelper.close();
+        mOpenHelper.close();
     }
 
     public int deleteAll(){
-        return db.delete(TABLE_NAME, null, null);
+        return sDatabase.delete(TABLE_NAME, null, null);
     }
 
     public int deleteItem(int id) {
-        return db.delete(TABLE_NAME, COLUMN_ID + "='" + id + "'", null);
+        return sDatabase.delete(TABLE_NAME, COLUMN_ID + "='" + id + "'", null);
     }
 
     public boolean editData(int id ,String letter, int coin, int currentQuestion, int maxQuestion) {
@@ -123,7 +123,7 @@ public class MyDatabase {
         values.put(COLUMN_COIN, coin);
         values.put(COLUMN_CURRENTQUESTION, currentQuestion);
         values.put(COLUMN_MAXQUESTION, maxQuestion);
-        long kq = db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+        long kq = sDatabase.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         return kq != 0;
     }
 
@@ -132,7 +132,7 @@ public class MyDatabase {
 
         values.put(COLUMN_ID, id);
         values.put(COLUMN_CURRENTQUESTION, currentQuestion);
-        long kq = db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+        long kq = sDatabase.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         return kq != 0;
     }
 
@@ -142,7 +142,7 @@ public class MyDatabase {
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, id);
         values.put(COLUMN_COIN, coin);
-        long kq = db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+        long kq = sDatabase.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         return kq != 0;
     }
 

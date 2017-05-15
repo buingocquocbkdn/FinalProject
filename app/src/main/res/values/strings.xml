@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Final Project</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <!--activity_main.xml-->
+    <string name="text_btn_play">PLAY</string>
+    <string name="text_btn_howtoplay">HOW TO PLAY</string>
+    <string name="text_btn_about">ABOUT</string>
+
 </resources>
