@@ -52,7 +52,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         txtLevel = (TextView) findViewById(R.id.txtlevel);
         txtCoin = (TextView) findViewById(R.id.txtcoin);
-        btnHome =(Button) findViewById(R.id.btn_home);
+        btnHome = (Button) findViewById(R.id.btn_home);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -82,12 +82,13 @@ public class QuestionActivity extends AppCompatActivity {
         clickCoin(mCoin);
         levelInfor(mCurrentQuestion, mMaxQuestion);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-               Intent intent = new Intent(QuestionActivity.this, LetterActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(QuestionActivity.this, LetterActivity.class);
+                startActivity(intent);
                 return true;
 
             default:
@@ -193,7 +194,7 @@ public class QuestionActivity extends AppCompatActivity {
                 btnResults[mIdQuestion].setEnabled(false);
                 btnResults[mIdQuestion].setText("");
 
-                btnResults[mIdQuestion].setTypeface(Typeface.createFromAsset(getAssets(),  "fonts/vnarialbold.ttf"));
+                btnResults[mIdQuestion].setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vnarialbold.ttf"));
                 btnResults[mIdQuestion].setTextSize(25);
 
                 btnResults[mIdQuestion].setBackgroundResource(R.drawable.btnasw1);
@@ -230,9 +231,19 @@ public class QuestionActivity extends AppCompatActivity {
             txtCoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mCoin == 0)
-                        Toast.makeText(QuestionActivity.this, "You are out of coins!", Toast.LENGTH_SHORT).show();
-                    else {
+                    if (mCoin == 0) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CONTEXT);
+                        builder.setTitle("SORRY!");
+                        builder.setMessage("You are out of diamonds")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //do things
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(CONTEXT);
                         builder.setTitle("GOOD LUCK!");
                         builder.setMessage("The answer is: " + mTmp)
@@ -257,7 +268,7 @@ public class QuestionActivity extends AppCompatActivity {
                         createButtonChoose(mId);
                         createImage(mId);
                         levelInfor(getCurrentQuestion(mId), mMaxQuestion);
-                        txtCoin.setText(mCoin+"");
+                        txtCoin.setText(mCoin + "");
                     }
                 }
             });
@@ -315,12 +326,12 @@ public class QuestionActivity extends AppCompatActivity {
                 Log.e("Random ", arr[i] + "");
             }
 
-            createGroupButtonChoose(id,arr,layout_4,Constant.START_GROUP_BUTTON_CHOOSE_1,Constant.END_GROUP_BUTTON_CHOOSE_1);
-            createGroupButtonChoose(id,arr,layout_5,Constant.START_GROUP_BUTTON_CHOOSE_2,Constant.END_GROUP_BUTTON_CHOOSE_2);
+            createGroupButtonChoose(id, arr, layout_4, Constant.START_GROUP_BUTTON_CHOOSE_1, Constant.END_GROUP_BUTTON_CHOOSE_1);
+            createGroupButtonChoose(id, arr, layout_5, Constant.START_GROUP_BUTTON_CHOOSE_2, Constant.END_GROUP_BUTTON_CHOOSE_2);
         }
     }
 
-    public void createGroupButtonChoose(final int id, String arr[],LinearLayout linearLayout, int startIDAnswer, final int endIDAnswer){
+    public void createGroupButtonChoose(final int id, String arr[], LinearLayout linearLayout, int startIDAnswer, final int endIDAnswer) {
         for (mIdAnswer = startIDAnswer; mIdAnswer < endIDAnswer; mIdAnswer++) {
             final Button btn = new Button(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
@@ -396,7 +407,7 @@ public class QuestionActivity extends AppCompatActivity {
                                     createImage(id);
                                     createButtonChoose(id);
                                     levelInfor(getCurrentQuestion(id), mMaxQuestion);
-                                    txtCoin.setText(mCoin+"");
+                                    txtCoin.setText(mCoin + "");
                                 }
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(CONTEXT);
